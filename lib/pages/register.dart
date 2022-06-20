@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_all/services/service.dart';
 import 'package:mvp_all/src/styles/colors/colors_view.dart';
 
 class Registro extends StatefulWidget {
@@ -9,12 +10,12 @@ class Registro extends StatefulWidget {
 }
 
 class _RegistroState extends State<Registro> {
-  final _user = TextEditingController();
-  final _email = TextEditingController();
-  final _password = TextEditingController();
   late String _name;
   late String _mail;
   late String _passw;
+  final _user = TextEditingController();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
   String password = '';
   bool isPasswordVisible = false;
   bool isChecked = false;
@@ -43,9 +44,133 @@ class _RegistroState extends State<Registro> {
           children: [
             label(),
             Container(
-              child: inputs(width, height),
-              // color: Colors.amber,
-            ),
+                child: Container(
+              height: 330,
+              child: Column(
+                children: [
+                  Container(
+                      padding: const EdgeInsets.only(right: 270),
+                      child: const Text(
+                        'Nombre',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.left,
+                      )),
+                  Container(
+                    width: width * 0.8,
+                    height: height * 0.1,
+                    margin: const EdgeInsets.only(top: 1),
+                    child: TextField(
+                      controller: _user,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide:
+                              const BorderSide(color: ColorSelect.paginator),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        hintText: 'Nombre completo',
+                      ),
+                    ),
+                  ),
+                  Container(
+                      padding: const EdgeInsets.only(right: 200),
+                      child: const Text(
+                        'Correo Electrónico',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.left,
+                      )),
+                  Container(
+                    width: width * 0.8,
+                    height: height * 0.1,
+                    margin: const EdgeInsets.only(top: 1),
+                    child: TextField(
+                      controller: _email,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide:
+                              const BorderSide(color: ColorSelect.paginator),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        hintText: 'Dirección de correo',
+                      ),
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                          padding: const EdgeInsets.only(right: 250),
+                          child: const Text(
+                            'Contraseña',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.left,
+                          )),
+                      Container(
+                        width: width * 0.8,
+                        height: height * 0.1,
+                        margin: const EdgeInsets.only(top: 1),
+                        child: TextField(
+                          controller: _password,
+                          onChanged: (value) =>
+                              setState(() => this.password = value),
+                          onSubmitted: (value) =>
+                              setState(() => this.password = value),
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: const BorderSide(
+                                  color: ColorSelect.paginator),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            hintText: 'Contraseña',
+                            suffixIcon: IconButton(
+                              color: ColorSelect.checkBox,
+                              icon: isPasswordVisible
+                                  ? const Icon(Icons.visibility_off)
+                                  : const Icon(Icons.visibility),
+                              onPressed: () => setState(
+                                  () => isPasswordVisible = !isPasswordVisible),
+                            ),
+                            border: const OutlineInputBorder(),
+                          ),
+                          obscureText: isPasswordVisible,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          width: width * 0.8,
+                          height: 35,
+                          child: const Center(
+                              child: Text(
+                            'La contraseña debe contener caracteres, nùmeros y simbolos con un minimo de 6 caracteres.',
+                            style: TextStyle(
+                                color: ColorSelect.paginator, fontSize: 13),
+                          )),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+                // color: Colors.amber,
+                ),
             Container(
               // color: Colors.amber,
               margin: const EdgeInsets.only(bottom: 100),
@@ -108,7 +233,16 @@ class _RegistroState extends State<Registro> {
                           primary: ColorSelect.btnBackgroundBo2,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30))),
-                      onPressed: () {},
+                      onPressed: () {
+                        register_prueba(_user.text, _email.text, _password.text)
+                            .then((value) {
+                          if (value == 'true') {
+                            Navigator.pushReplacementNamed(
+                                context, 'login_segundaVista');
+                          }
+                        });
+     
+                      },
                       child: const Text('Crear Cuenta '),
                     ),
                   ),
@@ -150,128 +284,9 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  Container inputs(double width, double height) {
-    return Container(
-      height: 330,
-      child: Column(
-        children: [
-          Container(
-              padding: const EdgeInsets.only(right: 270),
-              child: const Text(
-                'Nombre',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.left,
-              )),
-          Container(
-            width: width * 0.8,
-            height: height * 0.1,
-            margin: const EdgeInsets.only(top: 1),
-            child: TextField(
-              controller: _user,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: const BorderSide(color: ColorSelect.paginator),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                hintText: 'Nombre completo',
-              ),
-            ),
-          ),
-          Container(
-              padding: const EdgeInsets.only(right: 200),
-              child: const Text(
-                'Correo Electrónico',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.left,
-              )),
-          Container(
-            width: width * 0.8,
-            height: height * 0.1,
-            margin: const EdgeInsets.only(top: 1),
-            child: TextField(
-              controller: _email,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: const BorderSide(color: ColorSelect.paginator),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                hintText: 'Dirección de correo',
-              ),
-            ),
-          ),
-          Column(
-            children: [
-              Container(
-                  padding: const EdgeInsets.only(right: 250),
-                  child: const Text(
-                    'Contraseña',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.left,
-                  )),
-              Container(
-                width: width * 0.8,
-                height: height * 0.1,
-                margin: const EdgeInsets.only(top: 1),
-                child: TextField(
-                  onChanged: (value) => setState(() => this.password = value),
-                  onSubmitted: (value) => setState(() => this.password = value),
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide:
-                          const BorderSide(color: ColorSelect.paginator),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    hintText: 'Contraseña',
-                    suffixIcon: IconButton(
-                      color: ColorSelect.checkBox,
-                      icon: isPasswordVisible
-                          ? const Icon(Icons.visibility_off)
-                          : const Icon(Icons.visibility),
-                      onPressed: () => setState(
-                          () => isPasswordVisible = !isPasswordVisible),
-                    ),
-                    border: const OutlineInputBorder(),
-                  ),
-                  obscureText: isPasswordVisible,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            child: Column(
-              children: [
-                Container(
-                  width: width * 0.8,
-                  height: 35,
-                  child: const Center(
-                      child: Text(
-                    'La contraseña debe contener caracteres, nùmeros y simbolos con un minimo de 6 caracteres.',
-                    style:
-                        TextStyle(color: ColorSelect.paginator, fontSize: 13),
-                  )),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Container inputs(double width, double height) {
+  //   return
+  // }
 
   SizedBox label() {
     return const SizedBox(

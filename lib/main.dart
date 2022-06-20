@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_all/pages/home.dart';
 import 'package:mvp_all/pages/login_2.dart';
 import 'package:mvp_all/pages/progress_view.dart';
 import 'package:mvp_all/pages/register.dart';
 import 'package:mvp_all/pages/recuperar_password.dart';
+import 'package:mvp_all/pages/vista1.dart';
 import 'package:mvp_all/splash/splas_view.dart';
 import 'package:mvp_all/pages/vista_login.dart';
 
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
       //   primarySwatch: Colors.blue,
       // ),
       // home: SplashScreen(),
-      initialRoute: 'InitialPage',
+      initialRoute: 'vista_1',
       routes: {
         'InitialPage': (BuildContext context) => SplashScreen(),
         'login': (BuildContext context) => const login(),
@@ -31,9 +33,13 @@ class MyApp extends StatelessWidget {
         'register': (BuildContext context) => Registro(),
         'login_segundaVista': (BuildContext context) => InicioSesion(),
         'recuperar_password': (BuildContext context) => RecuperarContrasenia(),
+        'home': (BuildContext context) => Home(),
+        'vista_1': (BuildContext context) => const vista_1()
+
         // 'InitialHeader': (BuildContext context)=>const HomeHeader(),
 
-        // 'onboarding': (BuildContext context) => const OnBoarding(),
+        // 'onboarding': (BuildContext context) => const OnBoardin
+        // g(),
         // 'progress': (BuildContext context) =>  ProgressView(),
         // 'registro': (BuildContext context) =>  Registro(),
         //

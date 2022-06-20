@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mvp_all/services/service.dart';
 
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
@@ -102,7 +103,11 @@ class _loginState extends State<login> {
             child: SizedBox(
               height: 37,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // register_prueba('q', 'g@i.com', '321').then((value) {
+                  //   print(value);
+                  // });
+                },
                 child: const Text(
                   'Entrar como invitado',
                   style: TextStyle(

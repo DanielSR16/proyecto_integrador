@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_all/src/styles/colors/colors_view.dart';
 
+import '../services/service.dart';
+
 class InicioSesion extends StatefulWidget {
   InicioSesion({Key? key}) : super(key: key);
 
@@ -101,6 +103,7 @@ class _InicioSesionState extends State<InicioSesion> {
                       height: height * 0.1,
                       margin: const EdgeInsets.only(top: 15),
                       child: TextField(
+                        controller: _password,
                         onChanged: (value) =>
                             setState(() => this.password = value),
                         onSubmitted: (value) =>
@@ -153,7 +156,27 @@ class _InicioSesionState extends State<InicioSesion> {
               Container(
                 child: Column(
                   children: [
-                    boton(),
+                    Container(
+                      margin: const EdgeInsets.only(top: 160),
+                      width: 300,
+                      height: 48,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: ColorSelect.btnBackgroundBo2,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30))),
+                        onPressed: () {
+                          login_prueba(_email.text, _password.text)
+                              .then((value) {
+                            print(value);
+                            if (value[0] != 'incorrecto') {
+                              Navigator.pushReplacementNamed(context, 'home');
+                            }
+                          });
+                        },
+                        child: const Text('Ingresar'),
+                      ),
+                    ),
                     Container(
                       width: 300,
                       height: 48,
@@ -188,22 +211,6 @@ class _InicioSesionState extends State<InicioSesion> {
             ],
           )
         ],
-      ),
-    );
-  }
-
-  Widget boton() {
-    return Container(
-      margin: const EdgeInsets.only(top: 160),
-      width: 300,
-      height: 48,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            primary: ColorSelect.btnBackgroundBo2,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30))),
-        onPressed: () {},
-        child: const Text('Ingresar'),
       ),
     );
   }

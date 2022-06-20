@@ -16,4 +16,6 @@ class ColorSelect {
   static const Color appBar = Color(0xFF4F1581);
 
   static const Color checkBox = Color(0xFF808080);
+
+  static const Color yellow = Colors.yellow;
 }
