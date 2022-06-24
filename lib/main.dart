@@ -36,14 +36,6 @@ class MyApp extends StatelessWidget {
         'home': (BuildContext context) => Home(),
         'vista_1': (BuildContext context) => const vista_1()
 
-        // 'InitialHeader': (BuildContext context)=>const HomeHeader(),
-
-        // 'onboarding': (BuildContext context) => const OnBoardin
-        // g(),
-        // 'progress': (BuildContext context) =>  ProgressView(),
-        // 'registro': (BuildContext context) =>  Registro(),
-        //
-        // 'recuperar' :(BuildContext context) =>  RecuperarContrasenia(),
       },
     );
   }

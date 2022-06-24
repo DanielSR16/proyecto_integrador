@@ -66,14 +66,14 @@ Future<String> get_barners() async {
       Uri.http('desarrollovan-tis.dedyn.io:4030', '/GetImagesCarousel'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
       body: json.encode(
-        {"idChanel": 1},
+        {"idChannel": 1},
       ),
     );
 
     if (response.statusCode == 200) {
       // final data = json.decode(response.body);
       var data = response.body;
-
+      print(data);
       if (data == 'Usuario Existente') {
         return 'El usuario ya existe';
       } else {

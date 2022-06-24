@@ -1,9 +1,15 @@
 import 'dart:convert';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../services/service.dart';
 import '../src/styles/colors/colors_view.dart';
+import '../widgets/bar_products_widget.dart';
+import '../widgets/bar_services_widget.dart';
+import '../widgets/buttonCanvas.dart';
+import '../widgets/carrusel_card_widget.dart';
+import '../widgets/carrusel_widget.dart';
 
 class vista_1 extends StatefulWidget {
   const vista_1({Key? key}) : super(key: key);
@@ -21,34 +27,25 @@ class _vista_1State extends State<vista_1> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+
     get_barners().then(
       (value) {
         datas = jsonDecode(value);
+        print(datas);
         for (var i = 0; i < 3; i++) {
-          // print(datas['dtoImageCarousels'][i]['url']);
+          print(datas['dtoImageCarousels'][i]['url']);
           data_list_barners.add(datas['dtoImageCarousels'][i]['url']);
         }
       },
     );
+    super.initState();
   }
 
   PageController controller = PageController();
 
-  // List<Map<String, String>> data_on_bording = [
-  //   {
-  //     "text": data_list_barners[0],
-  //   },
-  //   {
-  //     "text": 'Esparcimiento',
-  //   },
-  //   {
-  //     "text": 'Esparcimiento',
-  //   },
-  // ];
-
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tienda'),
@@ -362,31 +359,52 @@ class _vista_1State extends State<vista_1> {
                 ),
               ],
             ),
+            CarrouselImagePrincipal(size: size),
+            const Divider(thickness: 2),
+            ProductosSecaWidget(size: size),
+            CarrouselImageCard(size: size),
+            const Divider(thickness: 2),
+            ServiceSecaWidget(size: size),
+            CarrouselImageCard(size: size),
+          ],
+        ),
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 80,
+        child: Stack(
+          children: [
+            CustomPaint(
+              size: const Size.fromHeight(80),
+              painter: ButtonPainter(),
+            ),
             Container(
-              color: Colors.amber,
-              height: 200,
-              child: PageView.builder(
-                controller: controller,
-                onPageChanged: (value) {
-                  setState(() {
-                    pages = value;
-                  });
-                },
-                itemCount: data_list_barners.length,
-                itemBuilder: (context, index) =>
-                    ContentBoarding(image: data_list_barners[index]),
+              margin: const EdgeInsets.only(left: 10, right: 10),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      print("HOME");
+                    },
+                    icon: const Icon(
+                      Icons.home,
+                      size: 35,
+                      color: Colors.white,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.assignment,
+                        size: 35, color: Colors.white),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.pets, size: 35, color: Colors.white),
+                  ),
+                ],
               ),
             ),
-            FloatingActionButton(onPressed: () {
-              get_productos().then((value) {
-                datas_productos = jsonDecode(value);
-                print(datas_productos["getProducts"]["response"]["docs"][1]
-                    ["urlImage"]);
-                // for (var i = 0; i < 3; i++) {
-                //   data_list_productos.add(datas['dtoImageCarousels'][i]['url']);
-                // }
-              });
-            })
           ],
         ),
       ),
